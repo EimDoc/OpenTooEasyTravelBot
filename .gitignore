@@ -1,0 +1,8 @@
+/.idea/
+/__pycache__/
+/handlers/__pycache__/
+/data_base/__pycache__/
+/misc/__pycache__/
+/inline_keyboards/__pycache__/
+/keyboards/__pycache__/
+/history.db
