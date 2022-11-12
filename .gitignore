@@ -1,0 +1,4 @@
+/.idea/
+/__pycache__/
+/handlers/__pycache__/
+/history.db
