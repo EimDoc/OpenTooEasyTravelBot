@@ -74,14 +74,17 @@ def check_hotels(params: dict, photos_count: int=None):
             star_rating = hotel.get('starRating')
             price = hotel.get('ratePlan').get('price').get('current')
             guest_rev = hotel.get('guestReviews', dict()).get('rating', 'нет')
-            text = """Название отеля: {name}\nАдрес: {address}\nЗвезды: {stars}\nОценка посетителей: {guest}\nРасстояние до центра: {distance} км\nЦена за одну ночь: {one_night}
+            url = f'https://www.hotels.com/ho{hotel["id"]}'
+            text = """Название отеля: {name}\nАдрес: {address}\nЗвезды: {stars}\nОценка посетителей: {guest}\nРасстояние до центра: {distance} км\nЦена за одну ночь: {one_night}\nСсылка: {url}
             """.format(
                 name=name,
                 address=address,
                 stars=star_rating,
                 guest=guest_rev,
                 distance=distance_to_center,
-                one_night=price)
+                one_night=price,
+                url=url
+            )
         except (AttributeError, ValueError):
             text = 'Возникла ошибка при получении информации'
 
@@ -90,12 +93,12 @@ def check_hotels(params: dict, photos_count: int=None):
                 resp_photo = get_photo(hotel['id'])['hotelImages'][:photos_count]
                 photos = [resp_photo[num]['baseUrl'].format(size='y') for num
                           in range(photos_count)]
-                yield text, photos, distance_to_center
+                yield text, photos, distance_to_center, url
             except Exception as exc:
                 print('Возникло исключение {} в строках 90-96 файла util.py'.format(exc))
                 yield 'Не удается отправить отель'
         else:
-            yield text, distance_to_center
+            yield text, distance_to_center, url
 
 
 def get_photo(id: str):

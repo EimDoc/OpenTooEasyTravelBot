@@ -44,12 +44,13 @@ async def get_city(message: types.Message, state: FSMContext):
     markup = get_destination_id(message.text)
     try:
         await message.reply('Выберите ваш вариант:', reply_markup=markup)
+        await FSMBestDeal.next()
     except Exception:
         await message.reply('Не удалось получить информацию по данному городу.')
         await my_bot.send_message(chat_id=message.from_user.id,
                                   text=help_text)
         await state.finish()
-    await FSMBestDeal.next()
+
 
 
 async def callback_id(callback_query: types.CallbackQuery, callback_data: dict, state: FSMContext):
@@ -242,7 +243,7 @@ async def stop_show_photos(callback_query: types.CallbackQuery, callback_data: d
                         name = ''.join(('id', str(callback_query.from_user.id)))
                         data_base.insert(name=name,
                                          command='/Лучшее_предложение',
-                                         time=datetime.now(), description=elem[0])
+                                         time=datetime.now(), description=elem[0], url=elem[2])
                     else:
                         break
                 await my_bot.send_message(chat_id=callback_query.from_user.id, text='Результаты выведены.')
@@ -291,7 +292,7 @@ async def photos_count(callback_query: types.CallbackQuery, callback_data: dict,
                                                   text='Не удается отправить отель')
                     name = ''.join(('id', str(callback_query.from_user.id)))
                     data_base.insert(name=name, command='/Лучшее_предложение',
-                                    time=datetime.now(), description=elem[0])
+                                    time=datetime.now(), description=elem[0], url=elem[3])
                 else:
                     break
             await my_bot.send_message(chat_id=callback_query.from_user.id, text='Результаты выведены.')

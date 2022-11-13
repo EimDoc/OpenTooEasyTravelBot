@@ -10,18 +10,18 @@ class DataBase:
             print('База данных подключена')
 
     def create_table(self, name: str):
-        self.__cur.execute("CREATE TABLE IF NOT EXISTS {name}(command,time PRIMARY KEY, hotel_description)".format(name=name))
+        self.__cur.execute("CREATE TABLE IF NOT EXISTS {name}(command,time PRIMARY KEY, hotel_description, url)".format(name=name))
         self.__base.commit()
 
-    def insert(self, name: str, command: str, time: str, description: str):
+    def insert(self, name: str, command: str, time: str, description: str, url: str):
         self.create_table(name)
         count = int(self.__cur.execute('SELECT COUNT(*) FROM {name}'.format(name=name)).fetchone()[0])
 
         if count >= 15:
             self.__cur.execute('DELETE FROM {name}'.format(name=name))
             self.__base.commit()
-        self.__cur.execute('INSERT INTO {name} VALUES(?, ?, ?)'.format(name=name),
-                           (command, time, description))
+        self.__cur.execute('INSERT INTO {name} VALUES(?, ?, ?, ?)'.format(name=name),
+                           (command, time, description, url))
         self.__base.commit()
 
     def get_values(self, name: str):

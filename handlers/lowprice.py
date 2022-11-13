@@ -41,12 +41,13 @@ async def get_city(message: types.Message, state: FSMContext):
     markup = get_destination_id(message.text)
     try:
         await message.reply('Выберите ваш вариант:', reply_markup=markup)
+        await FSMLowPrice.next()
     except Exception:
         await message.reply('Не удалось получить информацию по данному городу.')
         await my_bot.send_message(chat_id=message.from_user.id,
                                   text=help_text)
         await state.finish()
-    await FSMLowPrice.next()
+
 
 
 async def callback_id(callback_query: types.CallbackQuery, callback_data: dict, state: FSMContext):
@@ -180,7 +181,7 @@ async def stop_show_photos(callback_query: types.CallbackQuery, callback_data: d
                     name = ''.join(('id', str(callback_query.from_user.id)))
                     data_base.insert(name=name,
                                      command='/Низкая_цена',
-                                     time=datetime.now(), description=elem[0])
+                                     time=datetime.now(), description=elem[0], url=elem[2])
                 await my_bot.send_message(chat_id=callback_query.from_user.id, text='Результаты выведены.')
             except Exception:
                 await callback_query.message.reply('Произошла непредвиденная ошибка.')
@@ -223,7 +224,7 @@ async def photos_count(callback_query: types.CallbackQuery, callback_data: dict,
                                               text='Не удается отправить отель')
                 name = ''.join(('id', str(callback_query.from_user.id)))
                 data_base.insert(name=name, command='/Низкая_цена',
-                                time=datetime.now(), description=elem[0])
+                                time=datetime.now(), description=elem[0], url=elem[3])
             await my_bot.send_message(chat_id=callback_query.from_user.id, text='Результаты выведены.')
         except ValueError:
             await callback_query.message.reply('Введено неверное значение!\nПопробуйте еще раз.')
