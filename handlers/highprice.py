@@ -5,6 +5,7 @@ from aiogram.dispatcher.filters import Text
 from aiogram.types import MediaGroup
 from create_bot import my_bot
 from misc.util import get_destination_id, check_hotels
+from misc.variables import help_text
 from datetime import datetime
 from create_bot import data_base
 from aiogram_calendar import SimpleCalendar, simple_cal_callback
@@ -43,13 +44,7 @@ async def get_city(message: types.Message, state: FSMContext):
     except Exception:
         await message.reply('Не удалось получить информацию по данному городу.')
         await my_bot.send_message(chat_id=message.from_user.id,
-                                  text='Команды:\n'
-                        '/Низкая_цена - наименьшая цена\n'
-                        '/Высокая_цена - наивысшая цена\n'
-                        '/Лучшее_предложение - цена и расстояние до центра\n'
-                        '/История - вывод истории поиска\n'
-                        '/Помощь - помощь\n'
-                        'В любой момент выполнения команды вы можете ввести слово "стоп" и команда прервётся')
+                                  text=help_text)
         await state.finish()
     await FSMHighPrice.next()
 
@@ -185,13 +180,7 @@ async def stop_show_photos(callback_query: types.CallbackQuery, callback_data: d
                 await callback_query.message.reply('Произошла непредвиденная ошибка.')
         await state.finish()
 
-        await my_bot.send_message(chat_id=callback_query.from_user.id, text='Команды:\n'
-                        '/Низкая_цена - наименьшая цена\n'
-                        '/Высокая_цена - наивысшая цена\n'
-                        '/Лучшее_предложение - цена и расстояние до центра\n'
-                        '/История - вывод истории поиска\n'
-                        '/Помощь - помощь\n'
-                        'В любой момент выполнения команды вы можете ввести слово "стоп" и команда прервётся')
+        await my_bot.send_message(chat_id=callback_query.from_user.id, text=help_text)
     await callback_query.answer()
     await my_bot.delete_message(chat_id=callback_query.from_user.id,
                                 message_id=callback_query.message.message_id)
@@ -236,13 +225,7 @@ async def photos_count(callback_query: types.CallbackQuery, callback_data: dict,
         except ValueError:
             await callback_query.message.reply('Введено неверное значение!\nПопробуйте еще раз.')
             return
-        await my_bot.send_message(chat_id=callback_query.from_user.id, text='Команды:\n'
-                        '/Низкая_цена - наименьшая цена\n'
-                        '/Высокая_цена - наивысшая цена\n'
-                        '/Лучшее_предложение - цена и расстояние до центра\n'
-                        '/История - вывод истории поиска\n'
-                        '/Помощь - помощь\n'
-                        'В любой момент выполнения команды вы можете ввести слово "стоп" и команда прервётся')
+        await my_bot.send_message(chat_id=callback_query.from_user.id, text=help_text)
     await state.finish()
 
 

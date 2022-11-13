@@ -1,6 +1,7 @@
 from create_bot import data_base, my_bot
 from aiogram import types, Dispatcher
 from keyboards.keyboards import markup
+from misc.variables import help_text
 
 
 async def show_history(message: types.Message):
@@ -16,23 +17,11 @@ async def show_history(message: types.Message):
 
             await my_bot.send_message(chat_id=id, text=text)
         await my_bot.send_message(chat_id=message.from_user.id,
-                                  text='Команды:\n'
-                                       '/Низкая_цена - наименьшая цена\n'
-                                       '/Высокая_цена - наивысшая цена\n'
-                                       '/Лучшее_предложение - цена и расстояние до центра\n'
-                                       '/История - вывод истории поиска\n'
-                                       '/Помощь - помощь\n'
-                                       'В любой момент выполнения команды вы можете ввести слово "стоп" и команда прервётся')
+                                  text=help_text)
     except Exception:
         await my_bot.send_message(chat_id=id, text='Ваша история пуста', reply_markup=markup)
         await my_bot.send_message(chat_id=message.from_user.id,
-                                  text='Команды:\n'
-                                       '/Низкая_цена - наименьшая цена\n'
-                                       '/Высокая_цена - наивысшая цена\n'
-                                       '/Лучшее_предложение - цена и расстояние до центра\n'
-                                       '/История - вывод истории поиска\n'
-                                       '/Помощь - помощь\n'
-                                       'В любой момент выполнения команды вы можете ввести слово "стоп" и команда прервётся')
+                                  text=help_text)
         print('Ошибка получения значений у таблицы пользователя')
 
 
